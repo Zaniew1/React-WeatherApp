@@ -1,3 +1,13 @@
+import { SearchBar } from "./UI/SearchBar";
+import { TodayWeather } from "./TodayWeather";
+import { FutureWeather } from "./FutureWeather";
+import classes from "./Wrapper.module.css";
 export const Wrapper: React.FC = (props) => {
-  return <div></div>;
+  return (
+    <div className={classes.wrapper}>
+      <SearchBar />
+      <TodayWeather />
+      <FutureWeather />
+    </div>
+  );
 };
