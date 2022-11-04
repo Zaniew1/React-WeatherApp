@@ -4,10 +4,15 @@
   align-items: center;
   flex-direction: column;
   margin: 10px;
-  opacity: 0.6;
-  background-color: #000;
+  background-color: #000000d0;
+  color: #fff;
   border-radius: 10px;
   width: 90%;
   height: 70%;
   max-width: 480px;
+}
+.wrap {
+  margin: 20px 10px;
+  display: flex;
+  flex-direction: row;
 }

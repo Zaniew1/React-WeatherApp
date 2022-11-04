@@ -7,7 +7,13 @@ export const Wrapper: React.FC = (props) => {
     <div className={classes.wrapper}>
       <SearchBar />
       <TodayWeather />
-      <FutureWeather />
+      <div className={classes.wrap}>
+        <FutureWeather />
+        <FutureWeather />
+        <FutureWeather />
+        <FutureWeather />
+        <FutureWeather />
+      </div>
     </div>
   );
 };
