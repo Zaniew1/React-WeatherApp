@@ -59,7 +59,7 @@ function App() {
       }
     };
     getWeather(apiKey);
-    console.log(weatherData);
+    // console.log(weatherData);
   });
 
   return (
