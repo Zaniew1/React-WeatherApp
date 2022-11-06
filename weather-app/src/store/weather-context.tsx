@@ -1,119 +1,76 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 const apiKey: string = "66bf90ee7ac24837bb6104004220611";
-let geolocationSupported: boolean = true;
+// let geolocationSupported: boolean = true;
 type Loc = {
   lat: number;
   lon: number;
 };
-type weatherType = {
-  city: string;
-  temp: number;
-  icon: string;
-  iconText: string;
-  humidity: number;
-  wind: number;
-};
-// export const WeatherContext = React.createContext<weatherType>({});
-// export const WeatherContextProvider: React.FC<{ children: ReactNode }> = ({
-//   children,
-// }) => {
-//   const [weatherData, setWeatherData] = useState();
-
-//   async function getLocation() {
-//     navigator.geolocation.getCurrentPosition(async (position) => {
-//       const myLocation: Loc = {
-//         lat: position.coords.latitude,
-//         lon: position.coords.longitude,
-//       };
-
-//       try {
-//         const res = await fetch(
-//           `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${myLocation.lat},${myLocation.lon}&days=6`
-//         );
-//         const data = await res.json();
-
-//         const tablica = [];
-
-//         let obj = {
-//           city: data.location.name,
-//           temp: data.current.temp_c,
-//           icon: data.current.condition.icon,
-//           iconText: data.current.condition.text,
-//           humidity: data.current.humidity,
-//           wind: data.current.wind_kph,
-//         };
-
-//         tablica.push(obj);
-
-//         for (let i = 1; i < 6; i++) {
-//           const tempobj = {
-//             temp: data.forecast.forecastday[i].day.avgtemp_c,
-//             icon: data.forecast.forecastday[i].day.condition.icon,
-//             date: data.forecast.forecastday[i].date,
-//           };
-//           tablica.push(tempobj);
-//         }
-
-//         setWeatherData(tablica);
-//         return tablica;
-//       } catch (e) {
-//         console.log(e);
-//       }
-//     });
-//   }
-
-//   return (
-//     <WeatherContext.Provider value={{ weatherData }}>
-//       {children}
-//     </WeatherContext.Provider>
-//   );
+// type todayWeatherType = {
+//   city: string;
+//   temp: number;
+//   icon: string;
+//   iconText: string;
+//   humidity: number;
+//   wind: number;
 // };
+// type futureWeatherType = {
+//   temp: number;
+//   icon: string;
+//   date: string;
+// };
+type Context = {
+  cityName: string;
+  // todayWeather: any;
+  // futureWeather: any;
+};
 
-export const WeatherContext = React.createContext({
-  cityName: "Sosnowiec",
-  weatherData: [],
+export const WeatherContext = React.createContext<Context>({
+  cityName: "sosnowiec",
+  // todayWeather: todayWeather,
+  // futureWeather: futureWeather,
 });
 
-export const WeatherContextProvider: FC<{ children: ReactNode }> = ({
-  children,
-}) => {
-  const [weatherData, setWeatherData] = useState([]);
-  const [cityName, setCityName] = useState("");
-
+export const WeatherContextProvider = (props: any) => {
+  // const [cityName, setCityName] = useState();
+  // const [todayWeather, setTodayWeather] = useState<todayWeatherType>();
+  // const [futureWeather, setFutureWeather] = useState<futureWeatherType>();
+  const [location, setLocation] = useState<Loc>();
   useEffect(() => {
-    const res = await fetch("blabla");
-    const data = await res.json();
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      let lat = position.coords.latitude;
+      let lon = position.coords.longitude;
 
-    const tablica = [];
+      setLocation({ lat, lon });
+    });
 
-    let obj = {
-      city: data.location.name,
-      temp: data.current.temp_c,
-      icon: data.current.condition.icon,
-      iconText: data.current.condition.text,
-      humidity: data.current.humidity,
-      wind: data.current.wind_kph,
+    const getWeather = async (apiKey: string) => {
+      console.log(location);
+      try {
+        const res = await fetch(
+          `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location},${location}&days=6`
+        );
+        const data = await res.json();
+        console.log(data);
+        // setCityName(data.)
+        // setTodayWeather();
+        // setFutureWeather();
+      } catch (e) {
+        console.log(e);
+      }
     };
-
-    tablica.push(obj);
-
-    for (let i = 1; i < 6; i++) {
-      const tempobj = {
-        temp: data.forecast.forecastday[i].day.avgtemp_c,
-        icon: data.forecast.forecastday[i].day.condition.icon,
-        date: data.forecast.forecastday[i].date,
-      };
-      tablica.push(tempobj);
-    }
-
-    setWeatherData(tablica);
-  }, []);
-
-  return (
-    <WeatherContext.Provider value={(cityName, weatherData)}>
-      {" "}
-      {children}
-    </WeatherContext.Provider>
-  );
+    getWeather(apiKey);
+    console.log(location);
+  });
+  // return (
+  //   <WeatherContext.Provider
+  //     value={{
+  //       cityName: cityName,
+  //       todayWeather: todayWeather,
+  //       futureWeather: futureWeather,
+  //     }}
+  //   >
+  //     {props.children}
+  //   </WeatherContext.Provider>
+  // );
 };
