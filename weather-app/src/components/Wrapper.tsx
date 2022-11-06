@@ -1,4 +1,4 @@
-import { SearchBar } from "./UI/SearchBar";
+import { SearchBar } from "./form/SearchBar";
 import { TodayWeather } from "./TodayWeather";
 import { FutureWeather } from "./FutureWeather";
 import classes from "./Wrapper.module.css";
