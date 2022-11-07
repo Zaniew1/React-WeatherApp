@@ -23,13 +23,11 @@ type Context = {
   todayWeather: any;
   futureWeather: any;
 };
-
 export const WeatherContext = React.createContext<Context>({
   cityName: "sosnowiec",
   todayWeather: {},
   futureWeather: {},
 });
-
 export const WeatherContextProvider = (props: any) => {
   // const [cityName, setCityName] = useState();
   const [todayWeather, setTodayWeather] = useState<todayWeatherType>();
@@ -44,7 +42,6 @@ export const WeatherContextProvider = (props: any) => {
       setLocation(newLoc);
     });
   }, []);
-
   useEffect(() => {
     const getWeather = async (apiKey: string) => {
       try {
@@ -77,7 +74,6 @@ export const WeatherContextProvider = (props: any) => {
     };
     getWeather(apiKey);
   }, [location.lon, location.lat]);
-
   return (
     <WeatherContext.Provider
       value={{
