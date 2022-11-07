@@ -1,23 +1,26 @@
 import classes from "./TodayWeather.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloud } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faCloud } from "@fortawesome/free-solid-svg-icons";
 import { useContext } from "react";
 import { WeatherContext } from "../store/weather-context";
 
 export const TodayWeather: React.FC = (props) => {
   const weatherCTX = useContext(WeatherContext);
+  // console.log(weatherCTX);
   return (
     <div className={classes.weather}>
-      <h2 className={classes.city}>{`Weather in ${weatherCTX.cityName}`}</h2>
-      <h1 className={classes.temp}>15 °C</h1>
+      <h2
+        className={classes.city}
+      >{`Weather in ${weatherCTX.todayWeather.cityName}`}</h2>
+      <h1 className={classes.temp}>{weatherCTX.todayWeather.temp}</h1>
       <p>
-        <FontAwesomeIcon icon={faCloud} /> Broken Clouds
+        {weatherCTX.todayWeather.icon} {weatherCTX.todayWeather.iconText}
       </p>
       <div className={classes.himidity}>
-        Humidity: <span>66%</span>
+        <span> {`Humidity: ${weatherCTX.todayWeather.humidity}%`}</span>
       </div>
       <div className={classes.wind}>
-        Wind: <span>3.6km/h</span>
+        Wind: <span>{weatherCTX.todayWeather.wind}km/h</span>
       </div>
     </div>
   );

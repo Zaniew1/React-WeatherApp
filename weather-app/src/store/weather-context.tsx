@@ -6,71 +6,87 @@ type Loc = {
   lat: number;
   lon: number;
 };
-// type todayWeatherType = {
-//   city: string;
-//   temp: number;
-//   icon: string;
-//   iconText: string;
-//   humidity: number;
-//   wind: number;
-// };
-// type futureWeatherType = {
-//   temp: number;
-//   icon: string;
-//   date: string;
-// };
+type todayWeatherType = {
+  city: string;
+  temp: number;
+  iconText: string;
+  humidity: number;
+  wind: number;
+};
+type futureWeatherType = {
+  temp: number;
+  iconText: string;
+  date: string;
+}[];
 type Context = {
   cityName: string;
-  // todayWeather: any;
-  // futureWeather: any;
+  todayWeather: any;
+  futureWeather: any;
 };
 
 export const WeatherContext = React.createContext<Context>({
   cityName: "sosnowiec",
-  // todayWeather: todayWeather,
-  // futureWeather: futureWeather,
+  todayWeather: {},
+  futureWeather: {},
 });
 
 export const WeatherContextProvider = (props: any) => {
   // const [cityName, setCityName] = useState();
-  // const [todayWeather, setTodayWeather] = useState<todayWeatherType>();
-  // const [futureWeather, setFutureWeather] = useState<futureWeatherType>();
-  const [location, setLocation] = useState<Loc>();
+  const [todayWeather, setTodayWeather] = useState<todayWeatherType>();
+  const [futureWeather, setFutureWeather] = useState<futureWeatherType>();
+  const [location, setLocation] = useState<Loc>({ lat: 0, lon: 0 });
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      let lat = position.coords.latitude;
-      let lon = position.coords.longitude;
-
-      setLocation({ lat, lon });
+    navigator.geolocation.getCurrentPosition((position) => {
+      const newLoc = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      };
+      setLocation(newLoc);
     });
+  }, []);
 
+  useEffect(() => {
     const getWeather = async (apiKey: string) => {
-      console.log(location);
       try {
         const res = await fetch(
-          `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location},${location}&days=6`
+          `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location.lon},${location.lat}&days=6`
         );
         const data = await res.json();
-        console.log(data);
-        // setCityName(data.)
-        // setTodayWeather();
-        // setFutureWeather();
+        const todayWeatherData = {
+          city: data.location.name,
+          temp: data.current.temp_c,
+          iconText: data.current.condition.text,
+          humidity: data.current.humidity,
+          wind: data.current.wind_kph,
+        };
+
+        setTodayWeather(todayWeatherData);
+        const futureWeatherData = [];
+        for (let i = 1; i < 6; i++) {
+          const futureData = {
+            temp: data.forecast.forecastday[i].day.avgtemp_c,
+            iconText: data.forecast.forecastday[i].day.condition.icon,
+            date: data.forecast.forecastday[i].date,
+          };
+          futureWeatherData.push(futureData);
+        }
+        setFutureWeather(futureWeatherData);
       } catch (e) {
         console.log(e);
       }
     };
     getWeather(apiKey);
-    console.log(location);
-  });
-  // return (
-  //   <WeatherContext.Provider
-  //     value={{
-  //       cityName: cityName,
-  //       todayWeather: todayWeather,
-  //       futureWeather: futureWeather,
-  //     }}
-  //   >
-  //     {props.children}
-  //   </WeatherContext.Provider>
-  // );
+  }, [location.lon, location.lat]);
+
+  return (
+    <WeatherContext.Provider
+      value={{
+        cityName: "Warszawa",
+        todayWeather: todayWeather,
+        futureWeather: futureWeather,
+      }}
+    >
+      {props.children}
+    </WeatherContext.Provider>
+  );
 };
