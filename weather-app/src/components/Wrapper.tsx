@@ -14,11 +14,11 @@ export const Wrapper: React.FC = (props) => {
       <TodayWeather />
       <div className={classes.wrap}>
         <>
-          {weatherCtx.futureWeather &&
-            [...weatherCtx.futureWeather].map((el, i) => {
+          {weatherCtx.futureWeather !== undefined &&
+            [...weatherCtx.futureWeather].map((el) => {
               return (
                 <FutureWeather
-                  key={i}
+                  key={String(Math.random())}
                   date={el.date}
                   temp={el.temp}
                   icon={el.iconText}

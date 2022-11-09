@@ -5,24 +5,19 @@ export type Loc = {
 export type todayWeatherType = {
   city: string;
   temp: number;
-  iconText: string;
   humidity: number;
   wind: number;
 };
 export type futureWeatherType = {
-  temp: number;
-  iconText: string;
   date: string;
+  iconText: string;
+  temp: number;
 }[];
 export type Context = {
-  cityName: any;
-  setCityName: any;
-  todayWeather: any;
-  futureWeather: any;
+  cityName: string | undefined;
+  setCityName: (city: CityName) => void;
+  todayWeather: todayWeatherType | undefined;
+  futureWeather: futureWeatherType | undefined;
 };
-export type Icon = {
-  iconText: string;
-};
-export type CityName = {
-  cityName: string;
-};
+
+export type CityName = string;

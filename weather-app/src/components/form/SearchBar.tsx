@@ -22,7 +22,9 @@ export const SearchBar: React.FC = (props) => {
       //   setBadValue(false);
       // }, 4000);
     }
-    setCityName(enteredCity);
+    if (enteredCity !== undefined) {
+      setCityName(enteredCity);
+    }
   };
   return (
     <CenterDiv>

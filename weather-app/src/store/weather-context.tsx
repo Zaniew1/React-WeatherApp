@@ -10,14 +10,18 @@ import {
 const apiKey: string = "66bf90ee7ac24837bb6104004220611";
 
 export const WeatherContext = React.createContext<Context>({
-  cityName: undefined,
+  cityName: "Warszawa",
   setCityName: (city: string) => {},
-  todayWeather: {},
-  futureWeather: {},
+  todayWeather: {
+    city: "Warszawa",
+    temp: 12,
+    humidity: 23,
+    wind: 3.6,
+  },
+  futureWeather: [{ temp: 11, iconText: "Rainy", date: "2022-10-05" }],
 });
 export const WeatherContextProvider = (props: any) => {
   const [cityName, setCityName] = useState<CityName>();
-  const [geo, setGeo] = useState(false);
   const [todayWeather, setTodayWeather] = useState<todayWeatherType>();
   const [futureWeather, setFutureWeather] = useState<futureWeatherType>();
   const [location, setLocation] = useState<Loc>({ lat: null, lon: null });
@@ -29,8 +33,8 @@ export const WeatherContextProvider = (props: any) => {
       };
       setLocation(newLoc);
     });
-    setGeo(true);
-    if (geo === true && location.lat != null && location.lon != null) {
+
+    if (location.lat != null && location.lon != null) {
       const getWeather = async (apiKey: string) => {
         try {
           const res = await fetch(
@@ -42,7 +46,6 @@ export const WeatherContextProvider = (props: any) => {
           const todayWeatherData = {
             city: data.location.name,
             temp: data.current.temp_c,
-            iconText: data.current.condition.text,
             humidity: data.current.humidity,
             wind: data.current.wind_kph,
           };
@@ -66,8 +69,7 @@ export const WeatherContextProvider = (props: any) => {
     } else {
       return;
     }
-  }, [location.lon, location.lat, geo, cityName]);
-
+  }, [location.lon, location.lat, cityName]);
   return (
     <WeatherContext.Provider
       value={{

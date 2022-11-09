@@ -16,7 +16,7 @@ export const FutureWeather = (props: {
 }) => {
   const [icon, setIcon] = useState<string>();
   useEffect(() => {
-    if (props.icon === "Cloudy") {
+    if (props.icon === "Cloudy" || "Overcast") {
       setIcon("Cloudy");
     }
     if (props.icon === "Partly cloudy") {
