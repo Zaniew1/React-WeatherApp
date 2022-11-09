@@ -1,12 +1,15 @@
 import { CenterDiv } from "../UI/CenterDiv";
 import classes from "./SearchBar.module.css";
-import { useRef } from "react";
-import { useState } from "react";
+import { useRef, useState, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { WeatherContext } from "../../store/weather-context";
+
 import React from "react";
 export const SearchBar: React.FC = (props) => {
   const cityInputRef = useRef<HTMLInputElement>(null);
+  const { setCityName } = useContext(WeatherContext);
+
   const [badValue, setBadValue] = useState(false);
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
@@ -15,10 +18,11 @@ export const SearchBar: React.FC = (props) => {
       // enteredCity?.trim().length > 50 ||
       // enteredCity?.trim().length < 3
       setBadValue(true);
-      setTimeout(() => {
-        setBadValue(false);
-      }, 4000);
+      // setTimeout(() => {
+      //   setBadValue(false);
+      // }, 4000);
     }
+    setCityName(enteredCity);
   };
   return (
     <CenterDiv>

@@ -2,17 +2,30 @@ import { SearchBar } from "./form/SearchBar";
 import { TodayWeather } from "./TodayWeather";
 import { FutureWeather } from "./FutureWeather";
 import classes from "./Wrapper.module.css";
+import { useContext } from "react";
+import { WeatherContext } from "../store/weather-context";
+
 export const Wrapper: React.FC = (props) => {
+  const weatherCtx = useContext(WeatherContext);
+  console.log(weatherCtx);
   return (
     <div className={classes.wrapper}>
       <SearchBar />
       <TodayWeather />
       <div className={classes.wrap}>
-        <FutureWeather />
-        <FutureWeather />
-        <FutureWeather />
-        <FutureWeather />
-        <FutureWeather />
+        <>
+          {weatherCtx.futureWeather &&
+            [...weatherCtx.futureWeather].map((el, i) => {
+              return (
+                <FutureWeather
+                  key={i}
+                  date={el.date}
+                  temp={el.temp}
+                  icon={el.iconText}
+                ></FutureWeather>
+              );
+            })}
+        </>
       </div>
     </div>
   );
