@@ -1,6 +1,6 @@
 import { CenterDiv } from "../UI/CenterDiv";
 import classes from "./SearchBar.module.css";
-import { useRef, useState, useContext } from "react";
+import { useRef, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { WeatherContext } from "../../store/weather-context";

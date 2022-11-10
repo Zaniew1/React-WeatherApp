@@ -9,7 +9,19 @@ import {
   BadValue,
 } from "../Types/type";
 const apiKey: string = "66bf90ee7ac24837bb6104004220611";
-
+const defaultFutureWeather = [
+  {
+    temp: 0,
+    iconText: "",
+    date: "",
+  },
+];
+const defaultTodayWeather = {
+  city: "",
+  temp: 0,
+  humidity: 0,
+  wind: 0,
+};
 export const WeatherContext = React.createContext<Context>({
   cityName: "Warszawa",
   noSuchCity: false,
@@ -24,19 +36,10 @@ export const WeatherContext = React.createContext<Context>({
 });
 export const WeatherContextProvider = (props: any) => {
   const [cityName, setCityName] = useState<CityName>("");
-  const [todayWeather, setTodayWeather] = useState<todayWeatherType>({
-    city: "",
-    temp: 0,
-    humidity: 0,
-    wind: 0,
-  });
-  const [futureWeather, setFutureWeather] = useState<futureWeatherType>([
-    {
-      temp: 0,
-      iconText: "",
-      date: "",
-    },
-  ]);
+  const [todayWeather, setTodayWeather] =
+    useState<todayWeatherType>(defaultTodayWeather);
+  const [futureWeather, setFutureWeather] =
+    useState<futureWeatherType>(defaultFutureWeather);
   const [location, setLocation] = useState<Loc>({ lat: null, lon: null });
   const [noSuchCity, setNoSuchCity] = useState<BadValue>(false);
   useEffect(() => {
@@ -79,6 +82,8 @@ export const WeatherContextProvider = (props: any) => {
         } catch (e) {
           console.log(e);
           setNoSuchCity(true);
+          setTodayWeather(defaultTodayWeather);
+          setFutureWeather(defaultFutureWeather);
         }
       };
       getWeather(apiKey);
