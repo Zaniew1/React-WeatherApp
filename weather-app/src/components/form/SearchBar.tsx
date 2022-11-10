@@ -9,31 +9,27 @@ import React from "react";
 export const SearchBar: React.FC = (props) => {
   const cityInputRef = useRef<HTMLInputElement>(null);
   const { setCityName } = useContext(WeatherContext);
+  const weatherCtx = useContext(WeatherContext);
 
-  const [badValue, setBadValue] = useState(false);
   const submitHandler = (event: React.FormEvent) => {
     event.preventDefault();
     const enteredCity = cityInputRef.current?.value;
-    if (enteredCity?.trim().length === 0) {
-      // enteredCity?.trim().length > 50 ||
-      // enteredCity?.trim().length < 3
-      setBadValue(true);
-      // setTimeout(() => {
-      //   setBadValue(false);
-      // }, 4000);
-    }
+    if (enteredCity?.trim() === "") return;
     if (enteredCity !== undefined) {
       setCityName(enteredCity);
     }
   };
+
   return (
     <CenterDiv>
+      {weatherCtx.noSuchCity && (
+        <p className={classes.error}> Unfortunely I can't find that city</p>
+      )}
       <form
         className={classes.searchBar}
         onSubmit={submitHandler}
         action="submit"
       >
-        {badValue && <p> Type proper name of a city</p>}
         <input
           className={classes.input}
           ref={cityInputRef}

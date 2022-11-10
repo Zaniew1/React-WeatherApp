@@ -14,10 +14,12 @@ export type futureWeatherType = {
   temp: number;
 }[];
 export type Context = {
-  cityName: string | undefined;
+  cityName: string;
+  noSuchCity: boolean;
   setCityName: (city: CityName) => void;
-  todayWeather: todayWeatherType | undefined;
-  futureWeather: futureWeatherType | undefined;
+  todayWeather: todayWeatherType;
+  futureWeather: futureWeatherType;
 };
 
 export type CityName = string;
+export type BadValue = boolean;

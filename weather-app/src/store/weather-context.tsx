@@ -6,25 +6,39 @@ import {
   futureWeatherType,
   Context,
   CityName,
+  BadValue,
 } from "../Types/type";
 const apiKey: string = "66bf90ee7ac24837bb6104004220611";
 
 export const WeatherContext = React.createContext<Context>({
   cityName: "Warszawa",
+  noSuchCity: false,
   setCityName: (city: string) => {},
   todayWeather: {
-    city: "Warszawa",
-    temp: 12,
-    humidity: 23,
-    wind: 3.6,
+    city: "",
+    temp: 0,
+    humidity: 0,
+    wind: 0,
   },
-  futureWeather: [{ temp: 11, iconText: "Rainy", date: "2022-10-05" }],
+  futureWeather: [{ temp: 0, iconText: "", date: "" }],
 });
 export const WeatherContextProvider = (props: any) => {
-  const [cityName, setCityName] = useState<CityName>();
-  const [todayWeather, setTodayWeather] = useState<todayWeatherType>();
-  const [futureWeather, setFutureWeather] = useState<futureWeatherType>();
+  const [cityName, setCityName] = useState<CityName>("");
+  const [todayWeather, setTodayWeather] = useState<todayWeatherType>({
+    city: "",
+    temp: 0,
+    humidity: 0,
+    wind: 0,
+  });
+  const [futureWeather, setFutureWeather] = useState<futureWeatherType>([
+    {
+      temp: 0,
+      iconText: "",
+      date: "",
+    },
+  ]);
   const [location, setLocation] = useState<Loc>({ lat: null, lon: null });
+  const [noSuchCity, setNoSuchCity] = useState<BadValue>(false);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
       const newLoc = {
@@ -38,7 +52,7 @@ export const WeatherContextProvider = (props: any) => {
       const getWeather = async (apiKey: string) => {
         try {
           const res = await fetch(
-            cityName === undefined
+            !cityName
               ? `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location.lat},${location.lon}&days=6`
               : `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=6`
           );
@@ -60,9 +74,11 @@ export const WeatherContextProvider = (props: any) => {
             };
             futureWeatherData.push(futureData);
           }
+          setNoSuchCity(false);
           setFutureWeather(futureWeatherData);
         } catch (e) {
           console.log(e);
+          setNoSuchCity(true);
         }
       };
       getWeather(apiKey);
@@ -74,6 +90,7 @@ export const WeatherContextProvider = (props: any) => {
     <WeatherContext.Provider
       value={{
         cityName: cityName,
+        noSuchCity: noSuchCity,
         setCityName: setCityName,
         todayWeather: todayWeather,
         futureWeather: futureWeather,

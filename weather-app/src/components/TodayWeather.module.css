@@ -1,10 +1,8 @@
 .weather {
   color: #fff;
   width: 80%;
-}
-.city {
   text-align: center;
 }
-.temp {
-  text-align: center;
+.humidity {
+  margin: 10px auto;
 }

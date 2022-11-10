@@ -34,3 +34,7 @@
 .icon {
   color: #fff;
 }
+.error {
+  color: red;
+  font-size: 12px;
+}
