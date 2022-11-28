@@ -9,7 +9,7 @@ import {
   BadValue,
 } from "../Types/type";
 const apiKey: string = "ee63f367b1fc4dc884d142742222811";
-const numberOfDays:number = 5;
+const numberOfDays:number = 7;
 const defaultFutureWeather = [
   {
     temp: 0,
