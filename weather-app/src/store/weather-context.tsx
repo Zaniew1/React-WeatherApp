@@ -9,6 +9,7 @@ import {
   BadValue,
 } from "../Types/type";
 const apiKey: string = "ee63f367b1fc4dc884d142742222811";
+const numberOfDays:number = 5;
 const defaultFutureWeather = [
   {
     temp: 0,
@@ -56,8 +57,8 @@ export const WeatherContextProvider = (props: any) => {
         try {
           const res = await fetch(
             !cityName
-              ? `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location.lat},${location.lon}&days=6`
-              : `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=6`
+              ? `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location.lat},${location.lon}&days=${numberOfDays}`
+              : `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${numberOfDays}`
           );
           const data = await res.json();
           const todayWeatherData = {
@@ -66,10 +67,10 @@ export const WeatherContextProvider = (props: any) => {
             humidity: data.current.humidity,
             wind: data.current.wind_kph,
           };
-
+          console.log(todayWeatherData);
           setTodayWeather(todayWeatherData);
           const futureWeatherData = [];
-          for (let i = 1; i < 6; i++) {
+          for (let i = 1; i < numberOfDays; i++) {
             const futureData = {
               temp: data.forecast.forecastday[i].day.avgtemp_c,
               iconText: data.forecast.forecastday[i].day.condition.text,
