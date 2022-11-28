@@ -8,7 +8,7 @@ import {
   CityName,
   BadValue,
 } from "../Types/type";
-const apiKey: string = "66bf90ee7ac24837bb6104004220611";
+const apiKey: string = "ee63f367b1fc4dc884d142742222811";
 const defaultFutureWeather = [
   {
     temp: 0,
