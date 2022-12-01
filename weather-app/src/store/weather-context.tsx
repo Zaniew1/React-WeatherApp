@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import {
-  Loc,
+  LocType,
   todayWeatherType,
   futureWeatherType,
-  Context,
-  CityName,
-  BadValue,
+  ContextType,
+  CityNameType,
+  BadValueType,
+  WeatherContextPropsType,
 } from "../Types/type";
 const apiKey: string = "ee63f367b1fc4dc884d142742222811";
 const numberOfDays:number = 7;
@@ -23,7 +24,7 @@ const defaultTodayWeather = {
   humidity: 0,
   wind: 0,
 };
-export const WeatherContext = React.createContext<Context>({
+export const WeatherContext = React.createContext<ContextType>({
   cityName: "Warszawa",
   noSuchCity: false,
   setCityName: (city: string) => {},
@@ -35,17 +36,18 @@ export const WeatherContext = React.createContext<Context>({
   },
   futureWeather: [{ temp: 0, iconText: "", date: "" }],
 });
-export const WeatherContextProvider = (props: any) => {
-  const [cityName, setCityName] = useState<CityName>("");
+
+export const WeatherContextProvider = (props: WeatherContextPropsType) => {
+  const [cityName, setCityName] = useState<CityNameType>("");
   const [todayWeather, setTodayWeather] =
     useState<todayWeatherType>(defaultTodayWeather);
   const [futureWeather, setFutureWeather] =
     useState<futureWeatherType>(defaultFutureWeather);
-  const [location, setLocation] = useState<Loc>({ lat: null, lon: null });
-  const [noSuchCity, setNoSuchCity] = useState<BadValue>(false);
+  const [location, setLocation] = useState<LocType>({ lat: null, lon: null });
+  const [noSuchCity, setNoSuchCity] = useState<BadValueType>(false);
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => {
-      const newLoc = {
+      const newLoc: {lat: number, lon: number} = {
         lat: position.coords.latitude,
         lon: position.coords.longitude,
       };
@@ -67,10 +69,9 @@ export const WeatherContextProvider = (props: any) => {
             humidity: data.current.humidity,
             wind: data.current.wind_kph,
           };
-          console.log(todayWeatherData);
           setTodayWeather(todayWeatherData);
           const futureWeatherData = [];
-          for (let i = 1; i < numberOfDays; i++) {
+          for (let i:number = 1; i < numberOfDays; i++) {
             const futureData = {
               temp: data.forecast.forecastday[i].day.avgtemp_c,
               iconText: data.forecast.forecastday[i].day.condition.text,
