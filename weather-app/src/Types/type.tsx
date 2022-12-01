@@ -1,4 +1,4 @@
-export type Loc = {
+export type LocType = {
   lat: number | null;
   lon: number | null;
 };
@@ -13,13 +13,16 @@ export type futureWeatherType = {
   iconText: string;
   temp: number;
 }[];
-export type Context = {
+export type ContextType = {
   cityName: string;
   noSuchCity: boolean;
-  setCityName: (city: CityName) => void;
+  setCityName: (city: CityNameType) => void;
   todayWeather: todayWeatherType;
   futureWeather: futureWeatherType;
 };
 
-export type CityName = string;
-export type BadValue = boolean;
+export type CityNameType = string;
+export type BadValueType = boolean;
+export type WeatherContextPropsType = {
+  children: React.ReactNode
+}
