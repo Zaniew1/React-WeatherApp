@@ -9,7 +9,7 @@ import {
   BadValueType,
   WeatherContextPropsType,
 } from "../Types/type";
-const apiKey: string = "ee63f367b1fc4dc884d142742222811";
+const apiKey: string = "7c0f37f90300495283c174252220212";
 const numberOfDays:number = 7;
 const defaultFutureWeather = [
   {
@@ -59,8 +59,8 @@ export const WeatherContextProvider = (props: WeatherContextPropsType) => {
         try {
           const res = await fetch(
             !cityName
-              ? `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location.lat},${location.lon}&days=${numberOfDays}`
-              : `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${numberOfDays}`
+              ? `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${location.lat},${location.lon}&days=${numberOfDays}`
+              : `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${cityName}&days=${numberOfDays}`
           );
           const data = await res.json();
           const todayWeatherData = {
