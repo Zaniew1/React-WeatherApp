@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  min-width: 50px;
+  color: #fff;
+  margin: 15px 20px;
+  font-size: 12px;
+  border-radius: 10px;
+  background-color: #000;
+  opacity: 0.8;
+  padding: 10px 5px;
+}
