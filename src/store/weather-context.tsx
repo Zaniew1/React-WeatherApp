@@ -9,7 +9,7 @@ import {
   BadValueType,
   WeatherContextPropsType,
 } from "../Types/type";
-const apiKey: string = "330d6e6653db416ab8082159232802";
+const apiKey: string = "46690e91b2254647bf1152705232802";
 const numberOfDays:number = 7;
 const defaultFutureWeather = [
   {
